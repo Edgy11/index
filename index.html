@@ -357,6 +357,8 @@
     <div class="step-dot active"></div>
     <div class="step-dot"></div>
     <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
   </div>
   <div class="deco-line"></div>
   <h1 class="headline">Will you go on a<br><em>date with me?</em></h1>
@@ -367,81 +369,134 @@
   </div>
 </div>
 
-<!-- SCREEN 3: Pick a Date Idea -->
+<!-- SCREEN 3: Lunch or Dinner -->
 <div class="screen hidden" id="screen3">
   <div class="step-indicator">
     <div class="step-dot"></div>
     <div class="step-dot active"></div>
     <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
   </div>
   <div class="deco-line"></div>
-  <h1 class="headline">What kind of<br><em>evening</em> do you fancy?</h1>
-  <p class="subtext">Pick one — I'll make it perfect.</p>
-
-  <div class="date-grid">
-    <div class="date-card" onclick="selectDate(this, 'Candlelit Dinner')">
-      <span class="card-icon">🕯️</span>
-      <div class="card-title">Candlelit Dinner</div>
-      <div class="card-desc">Fine dining, just us</div>
+  <h1 class="headline">Lunch or<br><em>Dinner?</em></h1>
+  <p class="subtext">You pick — I'll make either one unforgettable.</p>
+  <div class="date-grid" style="max-width:440px;">
+    <div class="date-card" onclick="selectMeal(this, 'Lunch')">
+      <span class="card-icon">☀️</span>
+      <div class="card-title">Lunch</div>
+      <div class="card-desc">Daytime & breezy</div>
     </div>
-    <div class="date-card" onclick="selectDate(this, 'Sunset Picnic')">
-      <span class="card-icon">🧺</span>
-      <div class="card-title">Sunset Picnic</div>
-      <div class="card-desc">Golden hour & wine</div>
-    </div>
-    <div class="date-card" onclick="selectDate(this, 'Movie Night In')">
-      <span class="card-icon">🎬</span>
-      <div class="card-title">Movie Night In</div>
-      <div class="card-desc">Cozy, popcorn, us</div>
-    </div>
-    <div class="date-card" onclick="selectDate(this, 'Night Walk')">
+    <div class="date-card" onclick="selectMeal(this, 'Dinner')">
       <span class="card-icon">🌙</span>
-      <div class="card-title">Night Walk</div>
-      <div class="card-desc">Stars & conversation</div>
-    </div>
-    <div class="date-card" onclick="selectDate(this, 'Coffee & Art')">
-      <span class="card-icon">☕</span>
-      <div class="card-title">Coffee & Art</div>
-      <div class="card-desc">Gallery & good vibes</div>
-    </div>
-    <div class="date-card" onclick="selectDate(this, 'Surprise Me!')">
-      <span class="card-icon">✨</span>
-      <div class="card-title">Surprise Me!</div>
-      <div class="card-desc">I trust you fully</div>
+      <div class="card-title">Dinner</div>
+      <div class="card-desc">Evening & romantic</div>
     </div>
   </div>
-
-  <button class="btn btn-primary" id="next-date-btn" onclick="goToScreen(4)" disabled style="opacity:0.4;cursor:default">
-    Next — Pick a Time →
+  <button class="btn btn-primary" id="next-meal-btn" onclick="goToScreen(4)" disabled style="opacity:0.4;cursor:default">
+    Next — Pick a Food →
   </button>
 </div>
 
-<!-- SCREEN 4: Pick a Time -->
+<!-- SCREEN 4: Pick a Food -->
 <div class="screen hidden" id="screen4">
   <div class="step-indicator">
     <div class="step-dot"></div>
     <div class="step-dot"></div>
     <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
   </div>
   <div class="deco-line"></div>
-  <h1 class="headline">When should<br>I pick you up?</h1>
-  <p class="subtext">Choose the time that feels right. I'll be ready early just for you.</p>
-
-  <div class="time-row">
-    <div class="time-chip" onclick="selectTime(this, '5:00 PM')">5:00 PM</div>
-    <div class="time-chip" onclick="selectTime(this, '6:00 PM')">6:00 PM</div>
-    <div class="time-chip" onclick="selectTime(this, '7:00 PM')">7:00 PM</div>
-    <div class="time-chip" onclick="selectTime(this, '8:00 PM')">8:00 PM</div>
-    <div class="time-chip" onclick="selectTime(this, '9:00 PM')">9:00 PM</div>
+  <h1 class="headline">What are you<br><em>craving?</em></h1>
+  <p class="subtext">Pick what sounds delicious — I'll take care of the rest.</p>
+  <div class="date-grid">
+    <div class="date-card" onclick="selectFood(this, 'Pizza')">
+      <span class="card-icon">🍕</span>
+      <div class="card-title">Pizza</div>
+      <div class="card-desc">Cheesy & classic</div>
+    </div>
+    <div class="date-card" onclick="selectFood(this, 'Ramen')">
+      <span class="card-icon">🍜</span>
+      <div class="card-title">Ramen</div>
+      <div class="card-desc">Warm & cozy</div>
+    </div>
+    <div class="date-card" onclick="selectFood(this, 'Pasta')">
+      <span class="card-icon">🍝</span>
+      <div class="card-title">Pasta</div>
+      <div class="card-desc">Italian & romantic</div>
+    </div>
+    <div class="date-card" onclick="selectFood(this, 'Rice Meal')">
+      <span class="card-icon">🍱</span>
+      <div class="card-title">Rice Meal</div>
+      <div class="card-desc">Homey & satisfying</div>
+    </div>
+    <div class="date-card" onclick="selectFood(this, 'Burger')">
+      <span class="card-icon">🍔</span>
+      <div class="card-title">Burger</div>
+      <div class="card-desc">Fun & casual</div>
+    </div>
+    <div class="date-card" onclick="selectFood(this, 'Mexican Tacos')">
+      <span class="card-icon">🌮</span>
+      <div class="card-title">Mexican Tacos</div>
+      <div class="card-desc">Spicy & exciting</div>
+    </div>
   </div>
+  <button class="btn btn-primary" id="next-food-btn" onclick="goToScreen(5)" disabled style="opacity:0.4;cursor:default">
+    Next — Pick a Date →
+  </button>
+</div>
 
+<!-- SCREEN 5: Pick a Date -->
+<div class="screen hidden" id="screen5">
+  <div class="step-indicator">
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+  </div>
+  <div class="deco-line"></div>
+  <h1 class="headline">What day<br><em>works for you?</em></h1>
+  <p class="subtext">Pick a date — I'll clear my schedule for you.</p>
+  <input type="date" id="date-picker" style="
+    margin: 1.5rem 0 2rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 50px;
+    border: 2px solid var(--blush);
+    background: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  " oninput="selectDatePick(this.value)" />
+  <button class="btn btn-primary" id="next-datepick-btn" onclick="goToScreen(6)" disabled style="opacity:0.4;cursor:default">
+    Next — Pick a Time →
+  </button>
+</div>
+
+<!-- SCREEN 6: Pick a Time -->
+<div class="screen hidden" id="screen6">
+  <div class="step-indicator">
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot active"></div>
+  </div>
+  <div class="deco-line"></div>
+  <h1 class="headline">What time should<br>I <em>pick you up?</em></h1>
+  <p class="subtext">Choose the time that feels right. I'll be ready early just for you.</p>
+  <div class="time-row" id="time-row-display"></div>
   <button class="btn btn-primary" id="final-btn" onclick="celebrate()" disabled style="opacity:0.4;cursor:default">
     It's a Date! 💖
   </button>
 </div>
 
-<!-- SCREEN 5: YES! Celebration -->
-<div class="screen hidden" id="screen5">
+<!-- SCREEN 7: YES! Celebration -->
+<div class="screen hidden" id="screen7">
   <div class="confetti-wrap" id="confettiWrap"></div>
   <div class="big-heart">💖</div>
   <h1 class="yes-title">It's a Date!</h1>
@@ -449,8 +504,16 @@
 
   <div class="date-summary" id="dateSummary">
     <div class="summary-row">
-      <span class="summary-label">Vibe</span>
+      <span class="summary-label">Meal</span>
+      <span class="summary-value" id="sum-meal">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Food</span>
       <span class="summary-value" id="sum-type">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Date</span>
+      <span class="summary-value" id="sum-date">—</span>
     </div>
     <div class="summary-row">
       <span class="summary-label">Time</span>
@@ -487,8 +550,13 @@
     canvas.appendChild(p);
   }
 
-  let selectedDateType = '';
+  let selectedMeal = '';
+  let selectedFood = '';
+  let selectedDatePick = '';
   let selectedTime = '';
+
+  const lunchTimes = ['11:00 AM','12:00 PM','1:00 PM','2:00 PM'];
+  const dinnerTimes = ['6:00 PM','7:00 PM','8:00 PM','9:00 PM'];
 
   function goToScreen(n) {
     document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
@@ -516,14 +584,59 @@
     }
   }
 
-  function selectDate(card, type) {
-    document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
+  function selectMeal(card, meal) {
+    document.querySelectorAll('#screen3 .date-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
-    selectedDateType = type;
-    const btn = document.getElementById('next-date-btn');
+    selectedMeal = meal;
+    const btn = document.getElementById('next-meal-btn');
     btn.disabled = false;
     btn.style.opacity = '1';
     btn.style.cursor = 'pointer';
+  }
+
+  function selectFood(card, food) {
+    document.querySelectorAll('#screen4 .date-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedFood = food;
+    const btn = document.getElementById('next-food-btn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  }
+
+  function selectDatePick(val) {
+    selectedDatePick = val;
+    const btn = document.getElementById('next-datepick-btn');
+    if (val) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    }
+  }
+
+  // Build time chips based on meal when entering screen 6
+  const origGoToScreen = goToScreen;
+  function goToScreen(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById('screen'+n).classList.remove('hidden');
+    window.scrollTo(0,0);
+    if (n === 6) {
+      selectedTime = '';
+      const finalBtn = document.getElementById('final-btn');
+      finalBtn.disabled = true;
+      finalBtn.style.opacity = '0.4';
+      finalBtn.style.cursor = 'default';
+      const times = selectedMeal === 'Lunch' ? lunchTimes : dinnerTimes;
+      const row = document.getElementById('time-row-display');
+      row.innerHTML = '';
+      times.forEach(t => {
+        const chip = document.createElement('div');
+        chip.className = 'time-chip';
+        chip.textContent = t;
+        chip.onclick = () => selectTime(chip, t);
+        row.appendChild(chip);
+      });
+    }
   }
 
   function selectTime(chip, time) {
@@ -537,13 +650,20 @@
   }
 
   function celebrate() {
-    document.getElementById('sum-type').textContent = selectedDateType;
+    // Format date nicely
+    const [y,m,d] = selectedDatePick.split('-');
+    const dateObj = new Date(y, m-1, d);
+    const formatted = dateObj.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+    document.getElementById('sum-meal').textContent = selectedMeal;
+    document.getElementById('sum-type').textContent = selectedFood;
+    document.getElementById('sum-date').textContent = formatted;
     document.getElementById('sum-time').textContent = selectedTime;
-    goToScreen(5);
+    goToScreen(7);
     launchConfetti();
     emailjs.send('service_fllzoqo', 'template_4hbfwly', {
-      date_type: selectedDateType,
-      date_time: selectedTime
+      date_type: selectedMeal + ' — ' + selectedFood,
+      date_time: formatted + ' at ' + selectedTime
     }).catch(function(err) {
       console.error('EmailJS error:', err);
     });
