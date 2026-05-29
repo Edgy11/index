@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Go On a Date With Me? 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose: #e8637a;
+      --rose-light: #fce8ec;
+      --rose-dark: #c44560;
+      --blush: #f9d5db;
+      --cream: #fdf6f0;
+      --gold: #c9956a;
+      --text: #3a2132;
+      --text-muted: #7a5a68;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Floating petals */
+    .petals-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50% 0 50% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* SCREEN 1 — Greeting */
+    .screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .screen.hidden { display: none; }
+
+    /* Hero envelope */
+    .envelope-wrap {
+      margin-bottom: 2.5rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .envelope {
+      width: 120px;
+      height: 90px;
+      background: white;
+      border-radius: 6px;
+      border: 2px solid var(--blush);
+      position: relative;
+      box-shadow: 0 8px 32px rgba(232,99,122,0.15);
+      transition: transform 0.3s ease;
+      overflow: visible;
+    }
+
+    .envelope:hover { transform: scale(1.06) rotate(-2deg); }
+
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: var(--blush);
+      clip-path: polygon(0 0, 50% 60%, 100% 0);
+      border-radius: 6px 6px 0 0;
+      transition: transform 0.5s ease;
+      transform-origin: top;
+      z-index: 2;
+    }
+
+    .envelope.open::before {
+      transform: rotateX(180deg);
+    }
+
+    .envelope-heart {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      z-index: 1;
+    }
+
+    /* Typography */
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .headline em {
+      color: var(--rose);
+      font-style: italic;
+    }
+
+    .subtext {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      margin-bottom: 2.5rem;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.4rem;
+      border-radius: 50px;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--rose);
+      color: white;
+      box-shadow: 0 4px 20px rgba(232,99,122,0.35);
+    }
+    .btn-primary:hover { background: var(--rose-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,99,122,0.4); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1.5px solid var(--blush);
+      font-size: 0.85rem;
+    }
+    .btn-ghost:hover { border-color: var(--rose); color: var(--rose); }
+
+    .btn-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Date card grid */
+    .date-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+      max-width: 700px;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .date-card {
+      background: white;
+      border: 2px solid var(--blush);
+      border-radius: 18px;
+      padding: 1.5rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .date-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: var(--rose-light);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .date-card:hover { transform: translateY(-4px); border-color: var(--rose); box-shadow: 0 8px 28px rgba(232,99,122,0.18); }
+    .date-card:hover::after { opacity: 1; }
+    .date-card.selected { border-color: var(--rose); background: var(--rose-light); }
+    .date-card.selected .card-icon { transform: scale(1.15); }
+
+    .card-icon { font-size: 2.4rem; margin-bottom: 0.7rem; display: block; transition: transform 0.2s; position: relative; z-index: 1; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text); margin-bottom: 0.25rem; position: relative; z-index: 1; }
+    .card-desc { font-size: 0.8rem; color: var(--text-muted); font-weight: 300; position: relative; z-index: 1; }
+
+    /* Time picker */
+    .time-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .time-chip {
+      padding: 0.55rem 1.3rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--blush);
+      background: white;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .time-chip:hover, .time-chip.selected { background: var(--rose); color: white; border-color: var(--rose); }
+
+    /* Final YES screen */
+    .confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
+    .confetti-piece {
+      position: absolute;
+      width: 10px; height: 10px;
+      opacity: 0;
+      animation: confetti-fall 3s ease-in forwards;
+    }
+    @keyframes confetti-fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(800deg); opacity: 0; }
+    }
+
+    .big-heart {
+      font-size: 5rem;
+      animation: heartbeat 0.8s ease-in-out infinite alternate;
+    }
+    @keyframes heartbeat {
+      from { transform: scale(1); }
+      to   { transform: scale(1.12); }
+    }
+
+    .yes-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      color: var(--rose);
+      margin: 1rem 0 0.5rem;
+    }
+
+    .yes-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      max-width: 400px;
+      line-height: 1.7;
+    }
+
+    .date-summary {
+      margin: 2rem 0 2.5rem;
+      background: white;
+      border: 1.5px solid var(--blush);
+      border-radius: 20px;
+      padding: 1.5rem 2rem;
+      max-width: 380px;
+      width: 100%;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--blush);
+      font-size: 0.95rem;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-label { color: var(--text-muted); font-weight: 300; min-width: 60px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .summary-value { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--text); }
+
+    /* Step indicator */
+    .step-indicator {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 2rem;
+    }
+    .step-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blush);
+      transition: background 0.3s;
+    }
+    .step-dot.active { background: var(--rose); }
+
+    /* Decorative border */
+    .deco-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      margin: 0 auto 1.5rem;
+    }
+
+    /* No button running away */
+    #no-btn {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .date-grid { grid-template-columns: repeat(2, 1fr); }
+      .btn-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating petals background -->
+<div class="petals-canvas" id="petalsCanvas"></div>
+
+<!-- SCREEN 1: Opener -->
+<div class="screen" id="screen1">
+  <div class="envelope-wrap" onclick="openEnvelope()">
+    <div class="envelope" id="envelope">
+      <div class="envelope-heart">💌</div>
+    </div>
+  </div>
+  <h1 class="headline">Hey, <em>you</em>…<br>I have something to ask.</h1>
+  <p class="subtext">Click the letter — I have something special planned just for us.</p>
+  <button class="btn btn-primary" onclick="goToScreen(2)">Open the Letter 💕</button>
+</div>
+
+<!-- SCREEN 2: The Ask -->
+<div class="screen hidden" id="screen2">
+  <div class="step-indicator">
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+  <div class="deco-line"></div>
+  <h1 class="headline">Will you go on a<br><em>date with me?</em></h1>
+  <p class="subtext">You make every ordinary moment feel magical. I'd love to make a whole evening just for us.</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="goToScreen(3)">Yes, absolutely! 🌸</button>
+    <button class="btn btn-ghost" id="no-btn" onmouseover="runAway(this)" onclick="runAway(this)">Maybe not…</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: Pick a Date Idea -->
+<div class="screen hidden" id="screen3">
+  <div class="step-indicator">
+    <div class="step-dot"></div>
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+  </div>
+  <div class="deco-line"></div>
+  <h1 class="headline">What kind of<br><em>evening</em> do you fancy?</h1>
+  <p class="subtext">Pick one — I'll make it perfect.</p>
+
+  <div class="date-grid">
+    <div class="date-card" onclick="selectDate(this, 'Candlelit Dinner')">
+      <span class="card-icon">🕯️</span>
+      <div class="card-title">Candlelit Dinner</div>
+      <div class="card-desc">Fine dining, just us</div>
+    </div>
+    <div class="date-card" onclick="selectDate(this, 'Sunset Picnic')">
+      <span class="card-icon">🧺</span>
+      <div class="card-title">Sunset Picnic</div>
+      <div class="card-desc">Golden hour & wine</div>
+    </div>
+    <div class="date-card" onclick="selectDate(this, 'Movie Night In')">
+      <span class="card-icon">🎬</span>
+      <div class="card-title">Movie Night In</div>
+      <div class="card-desc">Cozy, popcorn, us</div>
+    </div>
+    <div class="date-card" onclick="selectDate(this, 'Night Walk')">
+      <span class="card-icon">🌙</span>
+      <div class="card-title">Night Walk</div>
+      <div class="card-desc">Stars & conversation</div>
+    </div>
+    <div class="date-card" onclick="selectDate(this, 'Coffee & Art')">
+      <span class="card-icon">☕</span>
+      <div class="card-title">Coffee & Art</div>
+      <div class="card-desc">Gallery & good vibes</div>
+    </div>
+    <div class="date-card" onclick="selectDate(this, 'Surprise Me!')">
+      <span class="card-icon">✨</span>
+      <div class="card-title">Surprise Me!</div>
+      <div class="card-desc">I trust you fully</div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="next-date-btn" onclick="goToScreen(4)" disabled style="opacity:0.4;cursor:default">
+    Next — Pick a Time →
+  </button>
+</div>
+
+<!-- SCREEN 4: Pick a Time -->
+<div class="screen hidden" id="screen4">
+  <div class="step-indicator">
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot active"></div>
+  </div>
+  <div class="deco-line"></div>
+  <h1 class="headline">When should<br>I pick you up?</h1>
+  <p class="subtext">Choose the time that feels right. I'll be ready early just for you.</p>
+
+  <div class="time-row">
+    <div class="time-chip" onclick="selectTime(this, '5:00 PM')">5:00 PM</div>
+    <div class="time-chip" onclick="selectTime(this, '6:00 PM')">6:00 PM</div>
+    <div class="time-chip" onclick="selectTime(this, '7:00 PM')">7:00 PM</div>
+    <div class="time-chip" onclick="selectTime(this, '8:00 PM')">8:00 PM</div>
+    <div class="time-chip" onclick="selectTime(this, '9:00 PM')">9:00 PM</div>
+  </div>
+
+  <button class="btn btn-primary" id="final-btn" onclick="celebrate()" disabled style="opacity:0.4;cursor:default">
+    It's a Date! 💖
+  </button>
+</div>
+
+<!-- SCREEN 5: YES! Celebration -->
+<div class="screen hidden" id="screen5">
+  <div class="confetti-wrap" id="confettiWrap"></div>
+  <div class="big-heart">💖</div>
+  <h1 class="yes-title">It's a Date!</h1>
+  <p class="yes-subtitle">You've just made me the happiest person in the world. I can't wait.</p>
+
+  <div class="date-summary" id="dateSummary">
+    <div class="summary-row">
+      <span class="summary-label">Vibe</span>
+      <span class="summary-value" id="sum-type">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">Time</span>
+      <span class="summary-value" id="sum-time">—</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label">With</span>
+      <span class="summary-value">You & Me 💕</span>
+    </div>
+  </div>
+
+  <p style="font-size:0.85rem;color:var(--text-muted);font-weight:300;">
+    Dress cute. Bring your smile. I'll handle everything else. 🌹
+  </p>
+</div>
+
+<script>
+  // Petals
+  const canvas = document.getElementById('petalsCanvas');
+  const colors = ['#e8637a','#f4a7b4','#fce8ec','#c9956a','#f9d5db'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      top: ${Math.random()*-20}%;
+      width: ${8 + Math.random()*12}px;
+      height: ${8 + Math.random()*12}px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration: ${4 + Math.random()*6}s;
+      animation-delay: ${Math.random()*5}s;
+      border-radius: ${Math.random()>0.5?'50% 0 50% 0':'50%'};
+    `;
+    canvas.appendChild(p);
+  }
+
+  let selectedDateType = '';
+  let selectedTime = '';
+
+  function goToScreen(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById('screen'+n).classList.remove('hidden');
+    window.scrollTo(0,0);
+  }
+
+  function openEnvelope() {
+    document.getElementById('envelope').classList.toggle('open');
+  }
+
+  let noCount = 0;
+  function runAway(btn) {
+    noCount++;
+    const messages = ['Nooo please 🥺','Are you sure?? 😢','Give me a chance!','Pretty please? 🌸','I promise it\'ll be fun!','One little yes? 💕'];
+    btn.textContent = messages[Math.min(noCount-1, messages.length-1)];
+    const vw = window.innerWidth - btn.offsetWidth - 20;
+    const vh = window.innerHeight - btn.offsetHeight - 20;
+    btn.style.position = 'fixed';
+    btn.style.left = Math.max(10, Math.random()*vw) + 'px';
+    btn.style.top  = Math.max(10, Math.random()*vh) + 'px';
+    if (noCount >= 5) {
+      btn.textContent = 'Fine… yes 😅';
+      btn.onclick = () => goToScreen(3);
+    }
+  }
+
+  function selectDate(card, type) {
+    document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedDateType = type;
+    const btn = document.getElementById('next-date-btn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  }
+
+  function selectTime(chip, time) {
+    document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedTime = time;
+    const btn = document.getElementById('final-btn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  }
+
+  function celebrate() {
+    document.getElementById('sum-type').textContent = selectedDateType;
+    document.getElementById('sum-time').textContent = selectedTime;
+    goToScreen(5);
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    const wrap = document.getElementById('confettiWrap');
+    const shapes = ['💕','🌸','✨','💖','🌹','💗'];
+    const colors2 = ['#e8637a','#f4a7b4','#c9956a','#f9d5db','#fce8ec'];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.cssText = `
+        left: ${Math.random()*100}%;
+        font-size: ${10+Math.random()*18}px;
+        animation-delay: ${Math.random()*2.5}s;
+        animation-duration: ${2+Math.random()*2}s;
+        background: ${Math.random()>0.4 ? colors2[Math.floor(Math.random()*colors2.length)] : 'transparent'};
+        border-radius: ${Math.random()>0.5?'50%':'3px'};
+        width: ${8+Math.random()*10}px;
+        height: ${8+Math.random()*10}px;
+      `;
+      if (Math.random() > 0.5) c.textContent = shapes[Math.floor(Math.random()*shapes.length)];
+      wrap.appendChild(c);
+    }
+  }
+</script>
+</body>
+</html>
